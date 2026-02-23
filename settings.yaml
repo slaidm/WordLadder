@@ -1,0 +1,6 @@
+word_size: 4
+number_of_guesses: 10
+number_of_changes: 1
+data:
+  dataset: unigram_freq.csv
+  type: csv
