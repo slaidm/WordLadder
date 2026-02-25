@@ -1,10 +1,10 @@
 from dataset import load_dataset, prune
-from core import pretty_print, test, calculate_changes
+from core import *
 import random
+from WordLadderSolver import WordLadderSolver as solver
 
 """
 Game:
-
 1. Get the size of the word ladder
 2. Load the dataset
 3. Prune the dataset
@@ -15,18 +15,24 @@ Game:
 
 """
 def game():
+    config = import_settings()
+
     size = int(input("Enter size of word ladder: "))
-    number_of_guesses = 10
-    number_of_changes = 1
+    number_of_guesses = config.get("number_of_guesses")
+    number_of_changes = config.get("number_of_changes")
 
     if not isinstance(size, int):
         raise Exception("Size must be a number")
 
-    org_dataset = load_dataset()
+    org_dataset = load_dataset(config.get("data"))
     ds = prune(size, org_dataset)
 
     #Get the first and last word
     word_ladder = random.sample(ds, 2)
+    solve = solver(ds, number_of_changes, number_of_guesses)
+    while not solve.has_solution(word_ladder[0], word_ladder[1]):
+        word_ladder = random.sample(ds, 2)
+
 
     print(f"""
   STARTING WORD LADDER OF SIZE {size}

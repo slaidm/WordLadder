@@ -1,3 +1,5 @@
+import yaml
+
 #Tests whether the new word differs by only number_of_changes and that the new word is in the dataset
 def test(original, new, number_of_changes, dataset):
     if not isinstance(new, str) :
@@ -39,3 +41,11 @@ def pretty_print(word_ladder):
 \t{word_list}
 =====================
   """.format(word_list=word_list)
+
+def pretty_print_arr(arr):
+    for row in arr:
+        yield pretty_print(row)
+
+def import_settings():
+    config = yaml.safe_load(open("../settings.yaml"))
+    return config

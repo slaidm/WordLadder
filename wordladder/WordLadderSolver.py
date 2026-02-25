@@ -1,18 +1,19 @@
 from collections import defaultdict
-from dataset import load_dataset, prune
+# from dataset import load_dataset, prune
+# from core import pretty_print_arr
 class WordLadderSolver:
 
     def __init__(self, words, number_of_changes=1, number_of_guesses=10):
         self.words = words
         self.number_of_changes = number_of_changes
         self.number_of_guesses = number_of_guesses
-        self.buckets = self._build_buckets(words, number_of_changes)
+        self.buckets = self._build_buckets()
 
-    def _build_buckets(self, words, number_of_changes):
+    def _build_buckets(self):
         buckets = defaultdict(list)
 
         for word in self.words:
-            for bucket_key in self._get_bucket_keys(word, number_of_changes):
+            for bucket_key in self._get_bucket_keys(word, self.number_of_changes):
                 buckets[bucket_key].append(word)
         return buckets
 
@@ -75,11 +76,18 @@ class WordLadderSolver:
             for word in paths[curr]:
                 yield from reconstruct_path(word, path + [word])
 
-        yield from reconstruct_path(end, [end])
+        def reconstruct_all_paths(curr, path):
+            return [p for p in reconstruct_path(curr, path)]
 
-org_dataset = load_dataset()
-ds = prune(4, org_dataset)
-wordladder = WordLadderSolver(ds)
-path = wordladder.solve_fully("need", "seam")
-lst = [p for p in path]
-print(lst)
+        return reconstruct_all_paths(end, [end])
+
+    def has_solution(self, start, end):
+        return self.solve_fully(start, end)
+
+# org_dataset = load_dataset()
+# ds = prune(5, org_dataset)
+# wordladder = WordLadderSolver(ds)
+# paths = wordladder.solve_fully("hello", "yelps")
+# solutions = pretty_print_arr(paths)
+# for sol in solutions:
+#     print(sol)

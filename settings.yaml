@@ -2,5 +2,12 @@ word_size: 4
 number_of_guesses: 10
 number_of_changes: 1
 data:
-  dataset: unigram_freq.csv
-  type: csv
+  dataset: datasets/magus4450/english-words-small-letter-count/
+  splits:
+    train: data/train-00000-of-00001.parquet
+    validation: data/validation-00000-of-00001.parquet
+    test: data/test-00000-of-00001.parquet
+  column: text
+  save_to_file: True
+  file: words.csv
+
