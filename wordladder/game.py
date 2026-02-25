@@ -1,5 +1,5 @@
-from .dataset import load_dataset, prune
-from .core import pretty_print, test, calculate_changes
+from dataset import load_dataset, prune
+from core import pretty_print, test, calculate_changes
 import random
 
 """
@@ -22,8 +22,7 @@ def game():
     if not isinstance(size, int):
         raise Exception("Size must be a number")
 
-    # org_dataset = load_dataset("google-10000-english-usa.txt", 'text')
-    org_dataset = load_dataset("unigram_freq.csv", 'csv')
+    org_dataset = load_dataset()
     ds = prune(size, org_dataset)
 
     #Get the first and last word
@@ -49,3 +48,6 @@ def game():
         if calculate_changes(old_word, target) == number_of_changes:
             print("Word Ladder Completed!")
             break
+
+if __name__ == "__main__":
+    game()

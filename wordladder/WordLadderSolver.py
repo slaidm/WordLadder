@@ -1,4 +1,5 @@
-from collections import defaultdict, deque
+from collections import defaultdict
+from dataset import load_dataset, prune
 class WordLadderSolver:
 
     def __init__(self, words, number_of_changes=1, number_of_guesses=10):
@@ -39,7 +40,7 @@ class WordLadderSolver:
                 if word != original:
                     yield word
 
-    def solve_fully(self, start, end, number_of_guesses):
+    def solve_fully(self, start, end):
         if start == end:
             return [start]
 
@@ -75,3 +76,10 @@ class WordLadderSolver:
                 yield from reconstruct_path(word, path + [word])
 
         yield from reconstruct_path(end, [end])
+
+org_dataset = load_dataset()
+ds = prune(4, org_dataset)
+wordladder = WordLadderSolver(ds)
+path = wordladder.solve_fully("need", "seam")
+lst = [p for p in path]
+print(lst)
